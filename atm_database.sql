@@ -1,0 +1,52 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: Nov 15, 2024 at 02:42 PM
+-- Server version: 8.3.0
+-- PHP Version: 8.2.18
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `atm`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `atm_database`
+--
+
+DROP TABLE IF EXISTS `atm_database`;
+CREATE TABLE IF NOT EXISTS `atm_database` (
+  `ACCOUNT_NO` int NOT NULL,
+  `ATM_PIN` int DEFAULT NULL,
+  `ACCOUNT_HOLDER` varchar(100) DEFAULT NULL,
+  `BALANCE` int DEFAULT NULL,
+  `WITHDRAWAL` int DEFAULT NULL,
+  `SAVINGS` int DEFAULT NULL,
+  PRIMARY KEY (`ACCOUNT_NO`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `atm_database`
+--
+
+INSERT INTO `atm_database` (`ACCOUNT_NO`, `ATM_PIN`, `ACCOUNT_HOLDER`, `BALANCE`, `WITHDRAWAL`, `SAVINGS`) VALUES
+(3073108, 73103, 'De Asis, Kurt Russel, Dizon', 5020000, NULL, 5070000),
+(32112312, 30520, 'DE ASIS, JASHLEEN KATE, BOITMANN', 5030000, NULL, 5000000);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
