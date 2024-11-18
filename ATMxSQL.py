@@ -1,11 +1,9 @@
 import mysql.connector
 
-# Database Connection
 mydb = mysql.connector.connect(host="localhost", user="root", password="")
 print(mydb)
 mycursor = mydb.cursor()
 
-# Create Database and Table
 mycursor.execute("CREATE DATABASE IF NOT EXISTS ATM")
 mycursor.execute("USE ATM")
 db = """
@@ -23,7 +21,7 @@ mycursor.execute(db)
 conn = mysql.connector.connect(host="localhost", user="root", password="", database="ATM")
 con = conn.cursor()
 
-# Welcome Screen
+
 print("Welcome to Online Banking\n"
       "*************************\n"
       "1. LOGIN\n"
@@ -32,7 +30,7 @@ print("Welcome to Online Banking\n"
       "*************************")
 choice = int(input("What would you like to do?: "))
 
-# Create Account
+
 if choice == 2:
     while True:
         an = int(input("Enter an 8-digit account number: "))
@@ -68,7 +66,7 @@ if choice == 2:
             print("Deposit successful. Thank you!")
             break
 
-# Login
+
 elif choice == 1:
     logged_in = False
     current_user = {}
@@ -108,7 +106,7 @@ elif choice == 1:
               "*************************")
         c1 = int(input("Choose an option: "))
 
-        if c1 == 1:  # Check Balance
+        if c1 == 1:
             b = "SELECT BALANCE FROM ATM_DATABASE WHERE ACCOUNT_NO = %s"
             con.execute(b, (current_user["ACCOUNT_NO"],))
             k = con.fetchone()
@@ -121,7 +119,7 @@ elif choice == 1:
                 print("Have a nice day!")
                 break
 
-        elif c1 == 2:  # Withdraw
+        elif c1 == 2:
             amt = int(input("Enter withdrawal amount: "))
             ba = "SELECT BALANCE FROM ATM_DATABASE WHERE ACCOUNT_NO = %s"
             con.execute(ba, (current_user["ACCOUNT_NO"],))
@@ -142,7 +140,7 @@ elif choice == 1:
                     print("Have a nice day!")
                     break
 
-        elif c1 == 3:  # Deposit
+        elif c1 == 3: 
             amt = int(input("Enter deposit amount: "))
             sav = "UPDATE ATM_DATABASE SET BALANCE = BALANCE + %s, SAVINGS = SAVINGS + %s WHERE ACCOUNT_NO = %s"
             con.execute(sav, (amt, amt, current_user["ACCOUNT_NO"]))
@@ -158,39 +156,39 @@ elif choice == 1:
 
 
 
-        elif c1 == 4:  # Transfer Money
+        elif c1 == 4: 
             trf = int(input("Enter the account number to transfer money to: "))
-            # Check if the target account exists
+            
             cb = "SELECT * FROM ATM_DATABASE WHERE ACCOUNT_NO = %s"
             con.execute(cb, (trf,))
             target_account = con.fetchone()
             if target_account:
                 print(f"Account number {trf} exists.")
                 m = int(input("Enter the amount to be transferred: "))
-                # Get the current user's balance
+                
                 bal_query = "SELECT BALANCE FROM ATM_DATABASE WHERE ACCOUNT_NO = %s"
                 con.execute(bal_query, (current_user["ACCOUNT_NO"],))
                 result = con.fetchone()
-                current_balance = result[0] if result and result[0] is not None else 0  # Handle NoneType
+                current_balance = result[0] if result and result[0] is not None else 0 
                 if m > current_balance:
                     print("Insufficient balance.")
                     print("Try transferring within the amount of your remaining balance.")
                 else:
-                    # Deduct the amount from the current user's account
+                    
                     deduct_query = "UPDATE ATM_DATABASE SET BALANCE = BALANCE - %s WHERE ACCOUNT_NO = %s"
                     con.execute(deduct_query, (m, current_user["ACCOUNT_NO"]))
-                    # Add the amount to the target account
+                    
                     add_query = "UPDATE ATM_DATABASE SET BALANCE = BALANCE + %s WHERE ACCOUNT_NO = %s"
                     con.execute(add_query, (m, trf))
-                    # Update withdrawal for the current user
+                    
                     update_withdrawal = "UPDATE ATM_DATABASE SET WITHDRAWAL = WITHDRAWAL + %s WHERE ACCOUNT_NO = %s"
                     con.execute(update_withdrawal, (m, current_user["ACCOUNT_NO"]))
-                    # Commit the transaction
+                    
                     conn.commit()
                     print(f"Amount successfully transferred to account number {trf}.")
             else:
                 print("The target account number does not exist. Please try again.")
-            # Check if the user wants another transaction
+            
             t = input("Would you like to do another transaction? y/n: ")
             if t.lower() == "y":
                 continue
