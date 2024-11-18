@@ -31,43 +31,7 @@ while True:
           "*************************")
     choice = int(input("What would you like to do?: "))
 
-    if choice == 2:
-        while True:
-            an = int(input("Enter an 8-digit account number: "))
-            cd = "SELECT * FROM ATM_DATABASE WHERE ACCOUNT_NO = %s"
-            con.execute(cd, (an,))
-            d = con.fetchall()
-
-            if len(d) > 0:
-                print("***************************************")
-                print("   Account number already exists!")
-                c = input("Do you want to continue (y/n): ")
-                print("***************************************")
-                if c.lower() == "y":
-                    continue
-                else:
-                    print("***************************************")
-                    print("   Thank you for your transaction.")
-                    print("***************************************")
-                    break
-            else:
-                name = input("Enter your full name (SURNAME, FIRST NAME, MIDDLE NAME): ")
-                passw = int(input("Enter your PIN (6 digits): "))
-                ab = "INSERT INTO ATM_DATABASE (ACCOUNT_NO, ATM_PIN, ACCOUNT_HOLDER) VALUES (%s, %s, %s)"
-                con.execute(ab, (an, passw, name))
-                conn.commit()
-
-                print("Account created successfully!")
-                dep = int(input("Enter the amount you want to deposit: "))
-                sav = "UPDATE ATM_DATABASE SET SAVINGS = %s, BALANCE = %s WHERE ACCOUNT_NO = %s"
-                con.execute(sav, (dep, dep, an))
-                conn.commit()
-
-                print("Deposit successful. Thank you!")
-                break
-
-
-    elif choice == 1:
+    if choice == 1:
         logged_in = False
         current_user = {}
 
@@ -202,6 +166,42 @@ while True:
 
             else:
                 print("Invalid option.")
+
+
+    elif choice == 2:
+        while True:
+            an = int(input("Enter an 8-digit account number: "))
+            cd = "SELECT * FROM ATM_DATABASE WHERE ACCOUNT_NO = %s"
+            con.execute(cd, (an,))
+            d = con.fetchall()
+
+            if len(d) > 0:
+                print("***************************************")
+                print("   Account number already exists!")
+                c = input("Do you want to continue (y/n): ")
+                print("***************************************")
+                if c.lower() == "y":
+                    continue
+                else:
+                    print("***************************************")
+                    print("   Thank you for your transaction.")
+                    print("***************************************")
+                    break
+            else:
+                name = input("Enter your full name (SURNAME, FIRST NAME, MIDDLE NAME): ")
+                passw = int(input("Enter your PIN (6 digits): "))
+                ab = "INSERT INTO ATM_DATABASE (ACCOUNT_NO, ATM_PIN, ACCOUNT_HOLDER) VALUES (%s, %s, %s)"
+                con.execute(ab, (an, passw, name))
+                conn.commit()
+
+                print("Account created successfully!")
+                dep = int(input("Enter the amount you want to deposit: "))
+                sav = "UPDATE ATM_DATABASE SET SAVINGS = %s, BALANCE = %s WHERE ACCOUNT_NO = %s"
+                con.execute(sav, (dep, dep, an))
+                conn.commit()
+
+                print("Deposit successful. Thank you!")
+                break
 
     elif choice == 3:
         print("Thank you for using our ATM Machine!")
